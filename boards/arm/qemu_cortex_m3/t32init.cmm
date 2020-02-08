@@ -1,0 +1,16 @@
+setup.pdfviewer.exe "/Applications/Adobe Acrobat Reader DC.app/Contents/MacOS/AdobeReader"
+setup.pdfviewer.open.DOC %1
+
+path + ~~/demo/arm/kernel/zephyr/v1.14
+
+sys.port localhost:1234
+sys.cpu CortexM3
+do winlayout.cmm
+
+data.load.elf &zephyrroot/build_qemu_m3/zephyr/zephyr.elf /NOCODE
+
+sys.attach
+
+task.config zephyr
+menu.reprogram zephyr
+
