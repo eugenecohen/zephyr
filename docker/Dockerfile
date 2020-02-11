@@ -7,6 +7,11 @@ ARG uid=1000
 ARG groupname=foo
 ARG gid=1000
 
+ARG HTTP_PROXY=
+ARG HTTPS_PROXY=
+ENV http_proxy=$HTTP_PROXY
+ENV https_proxy=$HTTPS_PROXY
+
 RUN dpkg --add-architecture i386
 
 RUN apt-get update
@@ -41,7 +46,7 @@ COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
 RUN if [ -z "`getent group $gid`" ]; then \
-      groupadd -g $gid -r $groupname \
+      groupadd -g $gid -r $groupname; \
       echo created group $gid $groupname; \
     else \
       echo existing group: $(getent group $gid); \
@@ -57,3 +62,4 @@ RUN if [ -z "`getent passwd $uid`" ]; then \
 RUN mkdir -p /build && chown $username /build
 
 USER $username
+
